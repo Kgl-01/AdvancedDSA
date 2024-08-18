@@ -126,6 +126,24 @@ public class LinkedList {
         return data;
     }
 
+    public void reverse() {
+        if (headNode == null) {
+            throw new NullPointerException("Empty List");
+        }
+        Node previousNode = null;
+        Node nextNode = null;
+        Node currentNode = headNode;
+
+        while (currentNode != null) {
+            nextNode = currentNode.nextNode;
+            currentNode.nextNode = previousNode;
+            previousNode = currentNode;
+            currentNode = nextNode;
+        }
+
+        headNode = previousNode;
+    }
+
 
     public int size() {
         return size;
@@ -162,6 +180,7 @@ public class LinkedList {
         list.replace(0, 18);
         System.out.printf("Replaced List %s \n", list);
         list.insertAtIndex(2, 7);
+        list.reverse();
         System.out.printf("Insertion List List %s \n", list);
         System.out.println(list.size());
         System.out.println(list.indexOf(3));
