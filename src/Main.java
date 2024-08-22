@@ -1,15 +1,72 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import DataStructure.NodeBasedDS.TreeNode;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        TreeNode leftChild = new TreeNode(25);
+        TreeNode rightChild = new TreeNode(75);
+        TreeNode rootNode = new TreeNode(50, leftChild, rightChild);
+        insert(45, rootNode);
+        TreeNode foundNode = search(45, rootNode);
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        System.out.println(foundNode.getData());
+
+    }
+
+    public static TreeNode search(int value, TreeNode node) {
+        if (node == null || node.getData() == value) {
+            return node;
+        }
+        if (value < node.getData()) {
+            return search(value, node.getLeftChild());
+        }
+        return search(value, node.getRightChild());
+    }
+
+    public static void insert(int value, TreeNode node) {
+        if (value < node.getData()) {
+            if (node.getLeftChild() == null) {
+                node.setLeftChild(new TreeNode(value));
+            } else {
+                insert(value, node.getLeftChild());
+            }
+        } else if (value > node.getData()) {
+            if (node.getRightChild() == null) {
+                node.setRightChild(new TreeNode(value));
+            } else {
+                insert(value, node.getRightChild());
+            }
         }
     }
+
+    public static TreeNode delete(int valueToDelete, TreeNode node) {
+        if (node == null) {
+            return node;
+        } else if (valueToDelete < node.getData()) {
+            node.setLeftChild(delete(valueToDelete, node.getLeftChild()));
+            return node;
+        } else if (valueToDelete > node.getData()) {
+            node.setRightChild(delete(valueToDelete, node.getRightChild()));
+            return node;
+        } else {
+            if (node.getLeftChild() == null) {
+                return node.getRightChild();
+            } else if (node.getRightChild() == null) {
+                return node.getLeftChild();
+            } else {
+                node.setRightChild(liftUp(node.getRightChild(), node));
+                return node;
+            }
+        }
+
+    }
+
+    public static TreeNode liftUp(TreeNode node, TreeNode nodeToDelete) {
+        if (node.getLeftChild() != null) {
+            node.setLeftChild(liftUp(node.getLeftChild(), nodeToDelete));
+            return node;
+        }
+        nodeToDelete.setData(node.getData());
+        return node.getRightChild();
+    }
+
 }

@@ -153,6 +153,7 @@ public class LinkedList {
         return this.size == 0;
     }
 
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
