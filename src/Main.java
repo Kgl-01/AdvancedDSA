@@ -8,7 +8,9 @@ public class Main {
         insert(45, rootNode);
         TreeNode foundNode = search(45, rootNode);
 
-        System.out.println(foundNode.getData());
+//        System.out.println(foundNode.getData());
+
+        traverse(rootNode);
 
     }
 
@@ -67,6 +69,15 @@ public class Main {
         }
         nodeToDelete.setData(node.getData());
         return node.getRightChild();
+    }
+
+    public static void traverse(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        traverse(node.getLeftChild());
+        System.out.println(node.getData());
+        traverse(node.getRightChild());
     }
 
 }
