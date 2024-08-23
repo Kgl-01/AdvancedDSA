@@ -1,27 +1,35 @@
-import DataStructure.NodeBasedDS.TreeNode;
+package DataStructure.NodeBasedDS;
 
-public class Main {
+public class BinaryTree {
     public static void main(String[] args) {
-        TreeNode leftChild = new TreeNode(25);
-        TreeNode rightChild = new TreeNode(75);
-        TreeNode rootNode = new TreeNode(50, leftChild, rightChild);
-        insert(45, rootNode);
-        TreeNode foundNode = search(45, rootNode);
 
-        System.out.println(foundNode.getData());
+        TreeNode rootNode = new TreeNode(50);
 
-        traverse(rootNode);
+        insert(25, rootNode);
+        insert(75, rootNode);
+        insert(10, rootNode);
+        insert(33, rootNode);
+        insert(56, rootNode);
+        insert(89, rootNode);
+        insert(4, rootNode);
+        insert(11, rootNode);
+        insert(30, rootNode);
+        insert(40, rootNode);
+        insert(52, rootNode);
+        insert(61, rootNode);
+        insert(82, rootNode);
+        insert(95, rootNode);
 
+        traverseAndPrint(rootNode);
     }
 
-    public static TreeNode search(int value, TreeNode node) {
-        if (node == null || node.getData() == value) {
-            return node;
+    public static void traverseAndPrint(TreeNode node) {
+        if (node == null) {
+            return;
         }
-        if (value < node.getData()) {
-            return search(value, node.getLeftChild());
-        }
-        return search(value, node.getRightChild());
+        traverseAndPrint(node.getLeftChild());
+        System.out.println(node.getData());
+        traverseAndPrint(node.getRightChild());
     }
 
     public static void insert(int value, TreeNode node) {
@@ -40,6 +48,17 @@ public class Main {
         }
     }
 
+
+    public static TreeNode search(int value, TreeNode node) {
+        if (node == null || node.getData() == value) {
+            return node;
+        }
+        if (value < node.getData()) {
+            return search(value, node.getLeftChild());
+        }
+        return search(value, node.getRightChild());
+    }
+
     public static TreeNode delete(int valueToDelete, TreeNode node) {
         if (node == null) {
             return node;
@@ -55,29 +74,20 @@ public class Main {
             } else if (node.getRightChild() == null) {
                 return node.getLeftChild();
             } else {
-                node.setRightChild(liftUp(node.getRightChild(), node));
+                node.setRightChild(lift(node.getRightChild(), node));
                 return node;
             }
         }
-
     }
 
-    public static TreeNode liftUp(TreeNode node, TreeNode nodeToDelete) {
+
+    public static TreeNode lift(TreeNode node, TreeNode nodeToDelete) {
         if (node.getLeftChild() != null) {
-            node.setLeftChild(liftUp(node.getLeftChild(), nodeToDelete));
+            node.setLeftChild(lift(node.getLeftChild(), nodeToDelete));
             return node;
         }
         nodeToDelete.setData(node.getData());
         return node.getRightChild();
-    }
-
-    public static void traverse(TreeNode node) {
-        if (node == null) {
-            return;
-        }
-        traverse(node.getLeftChild());
-        System.out.println(node.getData());
-        traverse(node.getRightChild());
     }
 
 }
